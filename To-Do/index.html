@@ -1,13 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de tarefa em Vue.js</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="app" class="task-app">
+      <h1>Minha Lista de Tarefas</h1>
+
+      <!--Input para adicionar tarefas-->
+      <!-- Este é um campo de entrada de texto que é vinculado à variável novaTarefa 
+        usando v-model. Isso significa que qualquer alteração no campo de entrada 
+        será refletida na variável e vice-versa.
+
+       '@keyup.enter é um ouvinte de evento que chama o método adicionarTarefa 
+        quando a tecla Enter é pressionada.
+      -->
+      <input
+        class="task-input"
+        v-model="novaTarefa"
+        @keyup.enter="adicionarTarefa"
+        placeholder="Adicionar nova tarefa"
+      />
+
+      <!--Lista de tarefas-->
+      <!--
+        Esta é a lista de tarefas onde usamos v-for para iterar sobre o array tarefas. Cada tarefa é exibida em um elemento <li>.
+        {{ tarefa }} exibe o texto da tarefa.
+        <button @click="removerTarefa(index)">Remover</button> cria um botão "Remover" que chama 
+        o método removerTarefa quando clicado, passando o índice da tarefa a ser removida.
+      -->
+      <ul class="task-list">
+        <li v-for="(tarefa, index) in tarefas" :key="index" class="task-item">
+          {{tarefa}}
+          <button @click="removerTarefa(index)" class="task-remove-button">Remover</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Inclua o Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #app {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #ccc;
+      }
+
+      button {
+        background-color: #ff6347;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+
+    <!--Codigo Vue.js-->
+    <!--
+                Aqui estão os métodos definidos no aplicativo Vue.js.
+      adicionarTarefa é chamado quando o usuário pressiona Enter na entrada de texto. Ele adiciona a tarefa atual à matriz tarefas após verificar se não está em branco e, em seguida, limpa o campo de entrada.
+      removerTarefa é chamado quando o botão "Remover" é clicado. Ele remove a tarefa correspondente da matriz tarefas com base no índice fornecido.
+      -->
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          novaTarefa: '',
+          tarefas: []
+        },
+        methods: {
+          adicionarTarefa() {
+            if (this.novaTarefa.trim() === '') return
+            this.tarefas.push(this.novaTarefa)
+            this.novaTarefa = ''
+            this.tarefas.reverse()
+          },
+          removerTarefa(index) {
+            this.tarefas.splice(index, 1)
+          }
+        }
+      })
+    </script>
   </body>
 </html>
