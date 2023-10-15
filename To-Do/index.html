@@ -113,9 +113,8 @@
         methods: {
           adicionarTarefa() {
             if (this.novaTarefa.trim() === '') return
-            this.tarefas.push(this.novaTarefa)
+            this.tarefas.unshift(this.novaTarefa)
             this.novaTarefa = ''
-            this.tarefas.reverse()
           },
           removerTarefa(index) {
             this.tarefas.splice(index, 1)
